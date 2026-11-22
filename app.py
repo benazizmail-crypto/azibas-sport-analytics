@@ -4,12 +4,25 @@ from datetime import datetime, timezone
 from azibas.engine import analyze_event
 from azibas.schemas import validate_event_frame
 from datetime import date
-from api_football import get_fixtures
-demo = st.checkbox("Charger les exemples fictifs", value=True)
+from api_football import get_fixtures 
+st.set_page_config(
+    page_title="AZIBAS SPORT ANALYTICS",
+    page_icon="📊",
+    layout="wide"
+)
+
+
+load_api = st.checkbox(
+    "Charger les matchs réels depuis API-Football",
+    value=True
+)
+
 api_date = st.date_input(
     "Date des rencontres",
     value=date.today()
-)if load_api:
+)
+
+if load_api:
     api_key = st.secrets.get("API_FOOTBALL_KEY", "")
 
     if not api_key:
@@ -34,8 +47,8 @@ api_date = st.date_input(
         except Exception as e:
             st.error(f"Erreur API-Football : {e}")
 
-load_api = st.button("Charger les matchs réels")
-st.set_page_config(page_title="AZIBAS SPORT ANALYTICS", page_icon="📊", layout="wide")
+
+
 st.title("📊 AZIBAS SPORT ANALYTICS")
 st.caption("PRO · Multi-sports intelligence · Analyse, simulation et suivi des modèles")
 st.warning("Les pronostics réels exigent des données fiables et des cotes actuelles. Sans fournisseur connecté, l'application fonctionne en mode import/démonstration et n'invente pas de rencontres.")
