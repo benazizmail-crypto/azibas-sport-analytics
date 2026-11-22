@@ -62,7 +62,7 @@ with st.sidebar:
     max_odds = st.number_input("Cote maximale", min_value=1.01, value=10.0, step=.10)
     st.divider()
     uploaded = st.file_uploader("Importer les événements (CSV)", type=["csv"])
-    demo = st.checkbox("Charger les exemples fictifs", value=True)
+    demo = st.checkbox("Charger les exemples fictifs", value=False)
 
 st.subheader("Centre de contrôle")
 m1,m2,m3,m4=st.columns(4)
