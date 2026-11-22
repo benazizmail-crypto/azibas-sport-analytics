@@ -3,7 +3,38 @@ import pandas as pd
 from datetime import datetime, timezone
 from azibas.engine import analyze_event
 from azibas.schemas import validate_event_frame
+from datetime import date
+from api_football import get_fixtures
+demo = st.checkbox("Charger les exemples fictifs", value=True)
+api_date = st.date_input(
+    "Date des rencontres",
+    value=date.today()
+)if load_api:
+    api_key = st.secrets.get("API_FOOTBALL_KEY", "")
 
+    if not api_key:
+        st.error("Clé API-Football absente dans les Secrets.")
+    else:
+        try:
+            matches = get_fixtures(
+                api_key,
+                api_date.isoformat()
+            )
+
+            st.subheader("Rencontres réelles API-Football")
+
+            if matches:
+                st.dataframe(
+                    pd.DataFrame(matches),
+                    use_container_width=True
+                )
+            else:
+                st.info("Aucune rencontre trouvée pour cette date.")
+
+        except Exception as e:
+            st.error(f"Erreur API-Football : {e}")
+
+load_api = st.button("Charger les matchs réels")
 st.set_page_config(page_title="AZIBAS SPORT ANALYTICS", page_icon="📊", layout="wide")
 st.title("📊 AZIBAS SPORT ANALYTICS")
 st.caption("PRO · Multi-sports intelligence · Analyse, simulation et suivi des modèles")
